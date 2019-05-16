@@ -143,6 +143,14 @@ if test "${enable_simdoverride+set}" = set; then
                    src/dotprod/src/dotprod_crcf.o \
                    src/dotprod/src/dotprod_rrrf.o \
                    src/dotprod/src/sumsq.o"
+    MLIBS_VECTOR="src/vector/src/vectorf_add.port.o   \
+                  src/vector/src/vectorf_norm.port.o  \
+                  src/vector/src/vectorf_mul.port.o   \
+                  src/vector/src/vectorf_trig.port.o  \
+                  src/vector/src/vectorcf_add.port.o  \
+                  src/vector/src/vectorcf_norm.port.o \
+                  src/vector/src/vectorcf_mul.port.o  \
+                  src/vector/src/vectorcf_trig.port.o"
     ARCH_OPTION=""
 else
     # Check canonical system
@@ -158,12 +166,36 @@ else
         #   AVX     :   immintrin.h
         AX_EXT
 
+        #if [ test "$ax_cv_have_avx_ext" = yes && test "$ac_cv_header_immintrin_h" = yes ]; then
+        #    # AVX extensions
+        #    MLIBS_DOTPROD="src/dotprod/src/dotprod_cccf.mmx.o \
+        #                   src/dotprod/src/dotprod_crcf.mmx.o \
+        #                   src/dotprod/src/dotprod_rrrf.mmx.o \
+        #                   src/dotprod/src/sumsq.mmx.o"
+        #    MLIBS_VECTOR="src/vector/src/vectorf_add.port.o   \
+        #                  src/vector/src/vectorf_norm.port.o  \
+        #                  src/vector/src/vectorf_mul.avx.o    \
+        #                  src/vector/src/vectorf_trig.port.o  \
+        #                  src/vector/src/vectorcf_add.port.o  \
+        #                  src/vector/src/vectorcf_norm.port.o \
+        #                  src/vector/src/vectorcf_mul.port.o  \
+        #                  src/vector/src/vectorcf_trig.port.o"
+        #    ARCH_OPTION='-mavx'
+        #elif [ test "$ax_cv_have_sse41_ext" = yes && test "$ac_cv_header_smmintrin_h" = yes ]; then
         if [ test "$ax_cv_have_sse41_ext" = yes && test "$ac_cv_header_smmintrin_h" = yes ]; then
             # SSE4.1/2 extensions
             MLIBS_DOTPROD="src/dotprod/src/dotprod_cccf.mmx.o \
                            src/dotprod/src/dotprod_crcf.mmx.o \
                            src/dotprod/src/dotprod_rrrf.mmx.o \
                            src/dotprod/src/sumsq.mmx.o"
+            MLIBS_VECTOR="src/vector/src/vectorf_add.port.o   \
+                          src/vector/src/vectorf_norm.port.o  \
+                          src/vector/src/vectorf_mul.sse.o    \
+                          src/vector/src/vectorf_trig.port.o  \
+                          src/vector/src/vectorcf_add.port.o  \
+                          src/vector/src/vectorcf_norm.port.o \
+                          src/vector/src/vectorcf_mul.port.o  \
+                          src/vector/src/vectorcf_trig.port.o"
             ARCH_OPTION='-msse4.1'
         elif [ test "$ax_cv_have_sse3_ext" = yes && test "$ac_cv_header_pmmintrin_h" = yes ]; then
             # SSE3 extensions
@@ -171,6 +203,14 @@ else
                            src/dotprod/src/dotprod_crcf.mmx.o \
                            src/dotprod/src/dotprod_rrrf.mmx.o \
                            src/dotprod/src/sumsq.mmx.o"
+            MLIBS_VECTOR="src/vector/src/vectorf_add.port.o   \
+                          src/vector/src/vectorf_norm.port.o  \
+                          src/vector/src/vectorf_mul.sse.o    \
+                          src/vector/src/vectorf_trig.port.o  \
+                          src/vector/src/vectorcf_add.port.o  \
+                          src/vector/src/vectorcf_norm.port.o \
+                          src/vector/src/vectorcf_mul.port.o  \
+                          src/vector/src/vectorcf_trig.port.o"
             ARCH_OPTION='-msse3'
         elif [ test "$ax_cv_have_sse2_ext" = yes && test "$ac_cv_header_emmintrin_h" = yes ]; then
             # SSE2 extensions
@@ -178,6 +218,14 @@ else
                            src/dotprod/src/dotprod_crcf.mmx.o \
                            src/dotprod/src/dotprod_rrrf.mmx.o \
                            src/dotprod/src/sumsq.mmx.o"
+            MLIBS_VECTOR="src/vector/src/vectorf_add.port.o   \
+                          src/vector/src/vectorf_norm.port.o  \
+                          src/vector/src/vectorf_mul.sse.o    \
+                          src/vector/src/vectorf_trig.port.o  \
+                          src/vector/src/vectorcf_add.port.o  \
+                          src/vector/src/vectorcf_norm.port.o \
+                          src/vector/src/vectorcf_mul.port.o  \
+                          src/vector/src/vectorcf_trig.port.o"
             ARCH_OPTION='-msse2'
         else
             # portable C version
@@ -185,6 +233,14 @@ else
                            src/dotprod/src/dotprod_crcf.o \
                            src/dotprod/src/dotprod_rrrf.o \
                            src/dotprod/src/sumsq.o"
+            MLIBS_VECTOR="src/vector/src/vectorf_add.port.o   \
+                          src/vector/src/vectorf_norm.port.o  \
+                          src/vector/src/vectorf_mul.port.o   \
+                          src/vector/src/vectorf_trig.port.o  \
+                          src/vector/src/vectorcf_add.port.o  \
+                          src/vector/src/vectorcf_norm.port.o \
+                          src/vector/src/vectorcf_mul.port.o  \
+                          src/vector/src/vectorcf_trig.port.o"
         fi;;
     powerpc*)
         MLIBS_DOTPROD="src/dotprod/src/dotprod_cccf.o \
@@ -198,6 +254,14 @@ else
                        src/dotprod/src/dotprod_crcf.o \
                        src/dotprod/src/dotprod_rrrf.o \
                        src/dotprod/src/sumsq.o"
+        MLIBS_VECTOR="src/vector/src/vectorf_add.port.o   \
+                      src/vector/src/vectorf_norm.port.o  \
+                      src/vector/src/vectorf_mul.port.o   \
+                      src/vector/src/vectorf_trig.port.o  \
+                      src/vector/src/vectorcf_add.port.o  \
+                      src/vector/src/vectorcf_norm.port.o \
+                      src/vector/src/vectorcf_mul.port.o  \
+                      src/vector/src/vectorcf_trig.port.o"
         ARCH_OPTION="-ffast-math";;
     armv7*|armv8*)
         # assume neon instructions are available
@@ -208,6 +272,14 @@ else
                        src/dotprod/src/dotprod_crcf.neon.o \
                        src/dotprod/src/dotprod_rrrf.neon.o \
                        src/dotprod/src/sumsq.o"
+        MLIBS_VECTOR="src/vector/src/vectorf_add.port.o   \
+                      src/vector/src/vectorf_norm.port.o  \
+                      src/vector/src/vectorf_mul.port.o   \
+                      src/vector/src/vectorf_trig.port.o  \
+                      src/vector/src/vectorcf_add.port.o  \
+                      src/vector/src/vectorcf_norm.port.o \
+                      src/vector/src/vectorcf_mul.port.o  \
+                      src/vector/src/vectorcf_trig.port.o"
         # TODO: check these flags
         #ARCH_OPTION="-ffast-math -mcpu=cortex-a8 -mfloat-abi=softfp -mfpu=neon";;
         ARCH_OPTION="-ffast-math -mcpu=cortex-a7 -mfloat-abi=hard -mfpu=neon-vfpv4";;
@@ -217,20 +289,18 @@ else
                        src/dotprod/src/dotprod_crcf.o \
                        src/dotprod/src/dotprod_rrrf.o \
                        src/dotprod/src/sumsq.o"
+        MLIBS_VECTOR="src/vector/src/vectorf_add.port.o   \
+                      src/vector/src/vectorf_norm.port.o  \
+                      src/vector/src/vectorf_mul.port.o   \
+                      src/vector/src/vectorf_trig.port.o  \
+                      src/vector/src/vectorcf_add.port.o  \
+                      src/vector/src/vectorcf_norm.port.o \
+                      src/vector/src/vectorcf_mul.port.o  \
+                      src/vector/src/vectorcf_trig.port.o"
         ARCH_OPTION="";;
     esac
 fi
 
-
-# for now all vector operations are portable C versions
-MLIBS_VECTOR="src/vector/src/vectorf_add.port.o   \
-              src/vector/src/vectorf_norm.port.o  \
-              src/vector/src/vectorf_mul.port.o   \
-              src/vector/src/vectorf_trig.port.o  \
-              src/vector/src/vectorcf_add.port.o  \
-              src/vector/src/vectorcf_norm.port.o \
-              src/vector/src/vectorcf_mul.port.o  \
-              src/vector/src/vectorcf_trig.port.o"
 
 case $target_os in
 darwin*)

@@ -1078,6 +1078,12 @@ src/vector/src/vectorcf_trig.port.o : %.o : %.c $(include_headers) src/vector/sr
 # builds for specific architectures
 # ...
 
+# AVX
+src/vector/src/vectorf_mul.avx.o : %.o : %.c $(include_headers)
+
+# SSE
+src/vector/src/vectorf_mul.sse.o : %.o : %.c $(include_headers)
+
 # vector autotest scripts
 vector_autotests :=
 
@@ -1085,7 +1091,9 @@ vector_autotests :=
 autotest_extra_obj +=
 
 # vector benchmark scripts
-vector_benchmarks :=
+vector_benchmarks :=						\
+	src/vector/bench/vectorf_mul_benchmark.c			\
+	src/vector/bench/vectorf_mulscalar_benchmark.c		\
 
 
 
@@ -1524,6 +1532,7 @@ example_programs :=						\
 	examples/symsync_crcf_kaiser_example			\
 	examples/symstreamcf_example				\
 	examples/symtrack_cccf_example				\
+	examples/vectorf_mul_example				\
 	examples/wdelayf_example				\
 	examples/windowf_example				\
 
